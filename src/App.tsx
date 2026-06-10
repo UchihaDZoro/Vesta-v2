@@ -63,13 +63,15 @@ export default function App() {
         {/* Section 6 — Premium FAQ Dropdown Accordions */}
         <FAQ />
 
-        {/* Section 7 — Unified Contact & Footer Section (Flows naturally on all viewports, guaranteeing the footer is fully visible) */}
-        <div id="contact-footer" className="min-h-screen flex flex-col justify-between bg-[#FCFAF7] border-t border-[#EBE9E2] snap-start snap-always relative z-10 w-full py-0 my-0 overflow-y-auto">
-          <div className="flex-grow flex items-center justify-center max-w-7xl mx-auto px-6 lg:px-8 w-full py-12 lg:py-16">
+        {/* Section 7 — Contact Section (Snaps to lock position) */}
+        <div id="contact-footer" className="min-h-screen flex flex-col justify-center bg-[#FCFAF7] border-t border-[#EBE9E2] snap-start snap-always relative z-10 w-full py-12 lg:py-16 my-0">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
             <Contact />
           </div>
-          <Footer />
         </div>
+
+        {/* Footer — flows naturally without snapping, allowing smooth scrolling right into it */}
+        <Footer />
 
       </main>
     </div>
