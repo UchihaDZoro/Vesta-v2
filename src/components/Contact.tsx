@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Mail, Phone, Linkedin, CheckCircle2, Send, ShieldCheck } from "lucide-react";
+import { Mail, Phone, Linkedin, CheckCircle2, Send, ShieldCheck, X } from "lucide-react";
 
 export default function Contact() {
   const [tab, setTab] = useState<"Partnership" | "Investor" | "General">("General");
@@ -12,6 +12,8 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [showToast, setShowToast] = useState(false);
 
   const [pathanImgError, setPathanImgError] = useState(false);
   const [nancyImgSrc, setNancyImgSrc] = useState("/image_1.png");
@@ -32,27 +34,75 @@ export default function Contact() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (validationError) {
+      setValidationError(null);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-    
+    setValidationError(null);
+
+    const { name, email, organization, message } = formData;
+
+    // Check mandatory fields
+    if (!name.trim() || !email.trim() || !organization.trim() || !message.trim()) {
+      setValidationError("All form fields are mandatory. Please fill in all details.");
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      setValidationError("Please enter a valid email address (e.g., mail@domain.com).");
+      return;
+    }
+
     setIsSubmitting(true);
-    // Simulate high-end server submission latency
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          organization: organization.trim(),
+          message: message.trim(),
+          category: tab,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit message.");
+      }
+
       setIsSubmitted(true);
-    }, 1200);
+      setShowToast(true);
+      // Auto-hide toast after 6 seconds
+      setTimeout(() => {
+        setShowToast(false);
+      }, 6000);
+    } catch (err: any) {
+      console.error("Form delivery error:", err);
+      setValidationError(err.message || "Connection failed. Unable to dispatch message.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setFormData({ name: "", email: "", organization: "", message: "" });
     setIsSubmitted(false);
+    setValidationError(null);
+    setShowToast(false);
   };
 
   return (
-    <section
+    <div
       id="contact"
       className="relative py-4 md:py-6 lg:py-8 w-full overflow-hidden bg-transparent"
     >
@@ -149,13 +199,14 @@ export default function Contact() {
 
                   <div className="flex flex-col gap-1">
                     <label className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
-                      Organization / Association
+                      Organization / Association *
                     </label>
                     <input
                       type="text"
                       name="organization"
                       value={formData.organization}
                       onChange={handleInputChange}
+                      required
                       placeholder="Organization Name"
                       className="w-full bg-[#FCFAF7] border border-[#DCDAD2] rounded-lg p-2.5 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-brand-teal focus:bg-white transition-all font-light"
                     />
@@ -175,6 +226,18 @@ export default function Contact() {
                       className="w-full bg-[#FCFAF7] border border-[#DCDAD2] rounded-lg p-2.5 text-sm text-neutral-900 placeholder-neutral-400 outline-none focus:border-brand-teal focus:bg-white transition-all font-light resize-none"
                     />
                   </div>
+
+                  {/* Validation Error feedback */}
+                  {validationError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3.5 rounded-lg border border-red-200 bg-red-50 text-red-700 text-xs font-semibold flex items-center gap-2.5"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shrink-0" />
+                      <span>{validationError}</span>
+                    </motion.div>
+                  )}
 
                   {/* Submission triggers */}
                   <div className="pt-1">
@@ -390,6 +453,43 @@ export default function Contact() {
         </div>
 
       </div>
-    </section>
+
+      {/* Premium Toast Notification */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 30, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+            className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-white border-l-4 border-brand-teal rounded-xl shadow-[0_10px_35px_rgba(0,0,0,0.08)] border border-[#EBE9E2]/80 p-4 font-sans text-neutral-800"
+          >
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-brand-teal/10 p-1.5 text-brand-teal shrink-0 mt-0.5">
+                <CheckCircle2 size={16} />
+              </div>
+              <div className="flex-grow">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-brand-teal">
+                  Dispatch Successful
+                </p>
+                <h4 className="text-xs font-bold text-neutral-900 mt-1">
+                  Inquiry safekept & sent
+                </h4>
+                <p className="text-[11px] text-neutral-500 mt-1 leading-relaxed">
+                  Your details have been securely delivered. We will contact you soon.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowToast(false)}
+                className="text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer shrink-0 mt-0.5"
+                aria-label="Close Toast"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
