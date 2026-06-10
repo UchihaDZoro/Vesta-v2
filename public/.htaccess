@@ -1,0 +1,15 @@
+# Vesta Technologies Apache Configuration
+# Configures beautiful URL re-routes and supports react client-side routing alongside API gateways on Hostinger.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Redirect all incoming calls to /api/contact to our native PHP pipeline
+  RewriteRule ^api/contact/?$ api-contact.php [L,QSA]
+
+  # Standalone SPA fallback: If requested URI is not a real directory or file, route everything else to client-side react
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

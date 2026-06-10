@@ -74,7 +74,18 @@ export default function Contact() {
         }),
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type");
+      let data: any = {};
+
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        if (text.trim().startsWith("<!DOCTYPE") || text.trim().startsWith("<html")) {
+          throw new Error("Unable to contact backend mailer (received HTML page). If you deployed to Hostinger, please make sure you copied the .htaccess and api-contact.php from your build folder.");
+        }
+        throw new Error("Invalid response received from the mail server.");
+      }
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to submit message.");
