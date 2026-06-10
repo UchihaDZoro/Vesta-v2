@@ -105,7 +105,7 @@ export default function Footer() {
 
         {/* Footer Base bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-400 font-light font-mono">
-          <span>&copy; {new Date().getFullYear()} Vesta Inc. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} Vesta Technologies Pvt. Ltd. All rights reserved.</span>
           <span>Made in India &middot; Engineered for Global Safety</span>
         </div>
 
