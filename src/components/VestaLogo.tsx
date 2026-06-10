@@ -72,7 +72,7 @@ export default function VestaLogo({
       </div>
 
       {showText && (
-        <span className={`font-display font-bold uppercase tracking-[0.25em] text-sm text-brand-white ${textClassName}`}>
+        <span className={`font-display font-bold uppercase tracking-[0.25em] text-sm text-brand-teal ${textClassName}`}>
           Vesta
         </span>
       )}

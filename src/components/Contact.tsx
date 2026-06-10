@@ -13,6 +13,22 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [pathanImgError, setPathanImgError] = useState(false);
+  const [nancyImgSrc, setNancyImgSrc] = useState("/image_1.png");
+  const [nancyImgError, setNancyImgError] = useState(false);
+
+  const handleNancyError = () => {
+    if (nancyImgSrc === "/image_1.png") {
+      setNancyImgSrc("/image-1.png");
+    } else if (nancyImgSrc === "/image-1.png") {
+      setNancyImgSrc("/image_2.png");
+    } else if (nancyImgSrc === "/image_2.png") {
+      setNancyImgSrc("/image.png");
+    } else {
+      setNancyImgError(true);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -218,52 +234,75 @@ export default function Contact() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ x: 4 }}
-              className="p-5 sm:p-6 rounded-xl border border-[#EBE9E2] bg-white flex flex-col gap-4 relative overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.01)]"
+              className="p-5 sm:p-6 rounded-xl border border-[#EBE9E2] bg-white relative overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.01)]"
               style={{
                 background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(212,166,74,0.01) 100%)",
               }}
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-brand-gold/5 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-brand-gold/5 via-transparent to-transparent rounded-bl-full pointer-events-none z-0" />
               
-              <div>
-                <span className="text-[9px] font-bold tracking-[0.2em] text-brand-gold uppercase block">
-                  FOUNDING TEAM
-                </span>
-                <h4 className="font-display font-extrabold text-lg sm:text-xl text-neutral-900 mt-1">
-                  Pathan Gulamgaush
-                </h4>
-                <p className="text-xs text-brand-teal font-medium uppercase tracking-wider mt-0.5">
-                  Founder & CEO — Vesta
-                </p>
-              </div>
+              <div className="flex flex-row gap-4 sm:gap-6 justify-between items-stretch relative z-10 w-full">
+                {/* Left side: Information and contacts */}
+                <div className="flex-grow flex flex-col justify-between">
+                  <div>
+                    <span className="text-[9px] font-bold tracking-[0.2em] text-brand-gold uppercase block">
+                      FOUNDING TEAM
+                    </span>
+                    <h4 className="font-display font-extrabold text-lg sm:text-xl text-neutral-900 mt-1">
+                      Pathan Gulamgaush
+                    </h4>
+                    <p className="text-xs text-brand-teal font-medium uppercase tracking-wider mt-0.5">
+                      Co-Founder & CTO — Vesta
+                    </p>
+                  </div>
 
-              {/* Action Handles */}
-              <div className="space-y-2 border-t border-neutral-100 pt-4">
-                <a
-                  href="mailto:pathangulam203@gmail.com"
-                  className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
-                >
-                  <Mail size={14} className="text-brand-teal group-hover/item:text-brand-gold" />
-                  <span>pathangulam203@gmail.com</span>
-                </a>
-                
-                <a
-                  href="tel:+918758964805"
-                  className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
-                >
-                  <Phone size={14} className="text-brand-teal group-hover/item:text-brand-gold" />
-                  <span>+91 87589 64805</span>
-                </a>
+                  {/* Action Handles (inside left block) */}
+                  <div className="space-y-2 border-t border-neutral-100 pt-4 mt-6">
+                    <a
+                      href="mailto:pathangulam203@gmail.com"
+                      className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
+                    >
+                      <Mail size={14} className="text-brand-teal group-hover/item:text-brand-gold shrink-0" />
+                      <span className="truncate max-w-[140px] sm:max-w-[200px]">pathangulam203@gmail.com</span>
+                    </a>
+                    
+                    <a
+                      href="tel:+918758964805"
+                      className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
+                    >
+                      <Phone size={14} className="text-brand-teal group-hover/item:text-brand-gold shrink-0" />
+                      <span>+91 87589 64805</span>
+                    </a>
 
-                <a
-                  href="https://www.linkedin.com/in/gulamgaush-pathan/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-xs text-neutral-600 hover:text-brand-gold transition-colors cursor-pointer group/item pt-1"
-                >
-                  <Linkedin size={14} className="text-brand-gold" />
-                  <span className="font-bold underline decoration-brand-gold/20">Connect on LinkedIn →</span>
-                </a>
+                    <a
+                      href="https://www.linkedin.com/in/gulamgaush-pathan/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-xs text-neutral-600 hover:text-brand-gold transition-colors cursor-pointer group/item pt-1"
+                    >
+                      <Linkedin size={14} className="text-brand-gold shrink-0" />
+                      <span className="font-bold underline decoration-brand-gold/20">Connect on LinkedIn →</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right side: Elegant Rounded Corner Image Box */}
+                <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-2xl border-2 border-brand-gold/30 bg-neutral-50 overflow-hidden shrink-0 shadow-md relative group/image flex items-center justify-center">
+                  {!pathanImgError ? (
+                    <img
+                      src="/pathan_gulamgaush.jpg"
+                      alt="Pathan Gulamgaush"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
+                      onError={() => setPathanImgError(true)}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-gold via-white to-brand-teal/20 flex flex-col items-center justify-center font-display font-black text-[#8E6515] text-xl">
+                      PG
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/20 to-transparent pointer-events-none" />
+                </div>
               </div>
             </motion.div>
 
@@ -274,52 +313,75 @@ export default function Contact() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
               whileHover={{ x: 4 }}
-              className="p-5 sm:p-6 rounded-xl border border-[#EBE9E2] bg-white flex flex-col gap-4 relative overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.01)]"
+              className="p-5 sm:p-6 rounded-xl border border-[#EBE9E2] bg-white relative overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.01)]"
               style={{
                 background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(212,166,74,0.01) 100%)",
               }}
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-brand-teal/5 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-brand-teal/5 via-transparent to-transparent rounded-bl-full pointer-events-none z-0" />
 
-              <div>
-                <span className="text-[9px] font-bold tracking-[0.2em] text-brand-gold uppercase block">
-                  FOUNDING TEAM
-                </span>
-                <h4 className="font-display font-extrabold text-lg sm:text-xl text-neutral-900 mt-1">
-                  Nancy Srivastava
-                </h4>
-                <p className="text-xs text-brand-teal font-medium uppercase tracking-wider mt-0.5">
-                  Co-Founder — Vesta
-                </p>
-              </div>
+              <div className="flex flex-row gap-4 sm:gap-6 justify-between items-stretch relative z-10 w-full">
+                {/* Left side: Information and contacts */}
+                <div className="flex-grow flex flex-col justify-between">
+                  <div>
+                    <span className="text-[9px] font-bold tracking-[0.2em] text-brand-gold uppercase block">
+                      FOUNDING TEAM
+                    </span>
+                    <h4 className="font-display font-extrabold text-lg sm:text-xl text-neutral-900 mt-1">
+                      Nancy Srivastava
+                    </h4>
+                    <p className="text-xs text-brand-teal font-medium uppercase tracking-wider mt-0.5">
+                      Co-Founder & CEO — Vesta
+                    </p>
+                  </div>
 
-              {/* Action Handles */}
-              <div className="space-y-2 border-t border-neutral-100 pt-4">
-                <a
-                  href="mailto:edhas6514@gmail.com"
-                  className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
-                >
-                  <Mail size={14} className="text-brand-teal group-hover/item:text-brand-gold" />
-                  <span>edhas6514@gmail.com</span>
-                </a>
+                  {/* Action Handles */}
+                  <div className="space-y-2 border-t border-neutral-100 pt-4 mt-6">
+                    <a
+                      href="mailto:edhas6514@gmail.com"
+                      className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
+                    >
+                      <Mail size={14} className="text-brand-teal group-hover/item:text-brand-gold shrink-0" />
+                      <span className="truncate max-w-[140px] sm:max-w-[200px]">edhas6514@gmail.com</span>
+                    </a>
 
-                <a
-                  href="tel:+919219342528"
-                  className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
-                >
-                  <Phone size={14} className="text-brand-teal group-hover/item:text-brand-gold" />
-                  <span>+91 92193 42528</span>
-                </a>
+                    <a
+                      href="tel:+919219342528"
+                      className="flex items-center gap-3 text-xs text-neutral-600 hover:text-neutral-900 transition-colors cursor-pointer group/item"
+                    >
+                      <Phone size={14} className="text-brand-teal group-hover/item:text-brand-gold shrink-0" />
+                      <span>+91 92193 42528</span>
+                    </a>
 
-                <a
-                  href="https://www.linkedin.com/in/nancy-srivastava-2k05/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-xs text-neutral-600 hover:text-brand-gold transition-colors cursor-pointer group/item pt-1"
-                >
-                  <Linkedin size={14} className="text-brand-gold" />
-                  <span className="font-bold underline decoration-brand-gold/20">Connect on LinkedIn →</span>
-                </a>
+                    <a
+                      href="https://www.linkedin.com/in/nancy-srivastava-2k05/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-xs text-neutral-600 hover:text-brand-gold transition-colors cursor-pointer group/item pt-1"
+                    >
+                      <Linkedin size={14} className="text-brand-gold shrink-0" />
+                      <span className="font-bold underline decoration-brand-gold/20">Connect on LinkedIn →</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right side: Elegant Rounded Corner Image Box */}
+                <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-2xl border-2 border-brand-teal/30 bg-neutral-50 overflow-hidden shrink-0 shadow-md relative group/image flex items-center justify-center">
+                  {!nancyImgError ? (
+                    <img
+                      src="/nancy.jpeg"
+                      alt="Nancy Srivastava"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
+                      onError={() => setNancyImgError(true)}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-teal via-white to-brand-gold/20 flex flex-col items-center justify-center font-display font-black text-brand-teal text-xl">
+                      NS
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/20 to-transparent pointer-events-none" />
+                </div>
               </div>
             </motion.div>
 

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Eye, ShieldAlert, Sparkles, Activity } from "lucide-react";
+import Abstract3DSphere from "./Abstract3DSphere";
 
 export default function Vision() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -136,12 +137,25 @@ export default function Vision() {
             rotateZ: { duration: 18, repeat: Infinity, ease: "linear" },
           }}
         />
+        {/* Premium Abstract 3D Spheres for Vision background */}
+        <div className="absolute top-[20%] left-[4%] opacity-35 xl:opacity-50 hidden md:block pointer-events-none z-0">
+          <Abstract3DSphere className="w-56 h-56 xl:w-64 xl:h-64" speed={55} color1="#0F8B8D" color2="#D4A64A" />
+        </div>
+        <div className="absolute bottom-[20%] right-[3%] opacity-35 xl:opacity-50 hidden md:block pointer-events-none z-0">
+          <Abstract3DSphere className="w-60 h-60 xl:w-72 xl:h-72" speed={50} color1="#D4A64A" color2="#0F8B8D" />
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10 w-full">
         
-        {/* Title Block */}
-        <div className="max-w-3xl mx-auto text-center mb-6 sm:mb-8 lg:mb-10">
+        {/* Title Block with Fade-In-Up content animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mx-auto text-center mb-6 sm:mb-8 lg:mb-10"
+        >
           <span className="text-xs font-bold tracking-widest text-brand-gold uppercase block mb-2 sm:mb-3">
             Our Vision
           </span>
@@ -152,7 +166,7 @@ export default function Vision() {
           <p className="mt-3 text-neutral-500 text-sm sm:text-base font-light max-w-2xl mx-auto">
             Vesta is charting a course toward proactive safety, where modern AI hardware and private user networks cooperate seamlessly to prevent crises.
           </p>
-        </div>
+        </motion.div>
 
         {/* Illuminated Glass Cards Pillar Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-h-[60vh] sm:max-h-none overflow-y-auto sm:overflow-visible p-2">
@@ -165,11 +179,39 @@ export default function Vision() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: idx * 0.15 }}
-                whileHover={{ y: -8 }}
-                className="p-6 sm:p-8 rounded-2xl border border-[#EBE9E2]/80 bg-white/90 relative overflow-hidden group flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_35px_rgba(15,139,141,0.08)] transition-all duration-300"
+                whileHover="hover"
+                variants={{
+                  hover: {
+                    y: -10,
+                    z: 20,
+                    scale: 1.025,
+                    boxShadow: p.id === "prevention" 
+                      ? "0 22px 45px rgba(15, 139, 141, 0.16)" 
+                      : p.id === "protection" 
+                      ? "0 22px 45px rgba(212, 166, 74, 0.22)" 
+                      : "0 22px 45px rgba(15, 139, 141, 0.1)"
+                  }
+                }}
+                style={{ transformStyle: "preserve-3d" }}
+                className="p-6 sm:p-8 rounded-2xl border border-[#EBE9E2]/80 bg-white/95 relative overflow-hidden group flex flex-col justify-between transition-all duration-300 cursor-pointer"
               >
                 {/* Intense Glowing effect from before behind glass morphic tile */}
-                <div className="absolute -inset-10 bg-radial from-brand-teal/8 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl z-0" />
+                <motion.div 
+                  variants={{
+                    hover: {
+                      scale: 1.35,
+                      opacity: 1,
+                    }
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className={`absolute -inset-10 bg-radial ${
+                    p.id === "prevention" 
+                      ? "from-brand-teal/20" 
+                      : p.id === "protection" 
+                      ? "from-brand-gold/25" 
+                      : "from-[#F9E0A2]/15"
+                  } via-transparent to-transparent opacity-0 pointer-events-none blur-xl z-0`} 
+                />
 
                 {/* Internal top lighting shine */}
                 <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-brand-gold/15 to-transparent pointer-events-none z-10" />

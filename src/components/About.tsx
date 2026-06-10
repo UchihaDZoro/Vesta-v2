@@ -143,9 +143,24 @@ export default function About() {
             <div className="relative w-80 h-80 sm:w-[410px] sm:h-[410px] flex items-center justify-center rounded-full border border-brand-teal/15 bg-white/45 relative shadow-[0_10px_40px_rgba(0,0,0,0.03)] backdrop-blur-md">
               
               {/* Outer spinning dash gold loop */}
-              <div className="absolute inset-4 rounded-full border border-dashed border-brand-gold/25 animate-spin-slow pointer-events-none" />
+              <div className="absolute inset-8 rounded-full border border-dashed border-brand-gold/15 animate-spin-slow pointer-events-none" />
 
-              {/* Inner floating orbital tracker */}
+              {/* Outer Golden sphere in orbit rotating in opposite direction */}
+              <motion.div
+                animate={{
+                  rotateZ: [0, 360],
+                }}
+                transition={{
+                  duration: 20,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
+                className="absolute inset-4 rounded-full border border-brand-gold/30 flex items-center justify-center pointer-events-none"
+              >
+                <div className="absolute h-3 w-3 rounded-full bg-brand-gold -top-1.5 left-1/2 -ml-1.5 filter drop-shadow-[0_0_8px_rgba(212,166,74,0.6)]" />
+              </motion.div>
+
+              {/* Inner floating orbital tracker (Teal sphere) */}
               <motion.div
                 animate={{
                   rotateZ: [360, 0],
@@ -155,7 +170,7 @@ export default function About() {
                   ease: "linear",
                   repeat: Infinity,
                 }}
-                className="absolute inset-10 rounded-full border border-brand-teal/20 flex items-center justify-center"
+                className="absolute inset-12 rounded-full border border-brand-teal/20 flex items-center justify-center pointer-events-none"
               >
                 <div className="absolute h-3 w-3 rounded-full bg-brand-teal -top-1.5 left-1/2 -ml-1.5 filter drop-shadow-[0_0_8px_rgba(15,139,141,0.6)]" />
               </motion.div>
@@ -174,7 +189,7 @@ export default function About() {
               <div className="absolute -inset-2 bg-radial from-brand-gold/5 to-transparent rounded-full filter blur-xl pointer-events-none" />
 
               {/* Info ribbon below the logo plate inside the ring */}
-              <div className="absolute -bottom-4 bg-white border border-[#E5E3DB] backdrop-blur-lg px-4 py-1.5 rounded-full text-[10px] text-brand-gold font-bold tracking-[0.25em] flex items-center gap-1.5 shadow-lg">
+              <div className="absolute -bottom-10 sm:-bottom-12 bg-white border border-[#E5E3DB] backdrop-blur-lg px-4 py-1.5 rounded-full text-[10px] text-brand-gold font-bold tracking-[0.25em] flex items-center gap-1.5 shadow-lg">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-teal animate-pulse" />
                 VESTA OS • ACTIVE SYSTEMS
               </div>
@@ -187,7 +202,7 @@ export default function About() {
             </div>
 
             {/* Est 2026 luxury foundation caption */}
-            <div className="mt-8 text-center">
+            <div className="mt-20 sm:mt-24 text-center">
               <p className="text-xs tracking-[0.4em] text-neutral-400 uppercase font-semibold">
                 ESTABLISHED IN
               </p>
@@ -209,7 +224,7 @@ export default function About() {
               About Vesta
             </span>
             <h2 className="font-display font-extrabold text-[#18181B] text-3xl sm:text-4xl lg:text-5xl tracking-tight">
-              Redefining <span className="text-gradient-glowing-gold">Personal Safety</span>
+              Redefining <span className="text-gradient-teal-gold">Personal Safety</span>
             </h2>
             
             <p className="mt-4 text-neutral-700 text-sm sm:text-base font-light leading-relaxed">
@@ -225,12 +240,31 @@ export default function About() {
               {points.map((pt, idx) => {
                 const IconComponent = pt.icon;
                 return (
-                  <div
+                  <motion.div
                     key={pt.title}
-                    className="group flex flex-col gap-1.5 p-3.5 sm:p-4 rounded-xl border border-[#EBE9E2]/80 bg-white/70 hover:bg-white hover:border-brand-gold/30 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.02)] relative overflow-hidden"
+                    whileHover="hover"
+                    variants={{
+                      hover: {
+                        y: -8,
+                        z: 12,
+                        scale: 1.02,
+                        boxShadow: "0 15px 35px rgba(15, 139, 141, 0.12)"
+                      }
+                    }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="group flex flex-col gap-1.5 p-3.5 sm:p-4 rounded-xl border border-[#EBE9E2]/80 bg-white/70 hover:border-brand-gold/30 transition-all duration-500 relative overflow-hidden cursor-pointer"
                   >
                     {/* Gorgeous glowing effect from before behind glass morphic tiles */}
-                    <div className="absolute -inset-10 bg-radial from-brand-teal/8 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl z-0" />
+                    <motion.div 
+                      variants={{
+                        hover: {
+                          scale: 1.25,
+                          opacity: 1,
+                        }
+                      }}
+                      transition={{ duration: 0.4 }}
+                      className="absolute -inset-10 bg-radial from-brand-teal/12 via-transparent to-transparent opacity-0 pointer-events-none blur-xl z-0" 
+                    />
                     
                     <div className="relative z-10 flex flex-col gap-1.5 w-full">
                       <div className="flex items-center gap-3">
@@ -245,7 +279,7 @@ export default function About() {
                         {pt.desc}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

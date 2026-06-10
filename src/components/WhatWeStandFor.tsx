@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Heart, Sparkles, Shield, Compass } from "lucide-react";
+import Abstract3DSphere from "./Abstract3DSphere";
 
 export default function WhatWeStandFor() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -131,6 +132,7 @@ export default function WhatWeStandFor() {
         />
 
         {/* Animated golden stars */}
+        {/* Animated golden stars */}
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
@@ -147,12 +149,26 @@ export default function WhatWeStandFor() {
             }}
           />
         ))}
+
+        {/* Premium Abstract 3D Spheres for WhatWeStandFor background */}
+        <div className="absolute top-[22%] left-[3%] opacity-30 xl:opacity-45 hidden md:block pointer-events-none z-0">
+          <Abstract3DSphere className="w-56 h-56 xl:w-64 xl:h-64" speed={50} color1="#D4A64A" color2="#0F8B8D" />
+        </div>
+        <div className="absolute bottom-[15%] right-[4%] opacity-35 xl:opacity-50 hidden md:block pointer-events-none z-0">
+          <Abstract3DSphere className="w-60 h-60 xl:w-68 xl:h-68" speed={55} color1="#0F8B8D" color2="#D4A64A" />
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10 w-full">
         
-        {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-6 sm:mb-8 lg:mb-10">
+        {/* Section Header with Fade-In-Up content animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mx-auto text-center mb-6 sm:mb-8 lg:mb-10"
+        >
           <span className="text-xs font-bold tracking-widest text-brand-gold uppercase block mb-2 sm:mb-3">
             Core Beliefs
           </span>
@@ -162,7 +178,7 @@ export default function WhatWeStandFor() {
           <p className="mt-3 text-neutral-500 text-sm sm:text-base font-light max-w-2xl mx-auto">
             These are the core principles that guide every decision, design, product selection, and engineering blueprint we create at Vesta.
           </p>
-        </div>
+        </motion.div>
 
         {/* Value Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
@@ -175,14 +191,32 @@ export default function WhatWeStandFor() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
-                whileHover={{ y: -6 }}
-                className="p-5 sm:p-6 rounded-xl border border-[#EBE9E2]/80 relative overflow-hidden group flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_35px_rgba(15,139,141,0.08)] transition-all duration-300 bg-white/90"
+                whileHover="hover"
+                variants={{
+                  hover: {
+                    y: -10,
+                    z: 16,
+                    scale: 1.025,
+                    boxShadow: "0 22px 42px rgba(15, 139, 141, 0.14)"
+                  }
+                }}
                 style={{
                   background: `linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(212,166,74,0.01) 100%)`,
+                  transformStyle: "preserve-3d",
                 }}
+                className="p-5 sm:p-6 rounded-xl border border-[#EBE9E2]/80 relative overflow-hidden group flex flex-col justify-between transition-all duration-300 bg-white/95 cursor-pointer"
               >
                 {/* Intense Glowing effect from before behind glass morphic tile */}
-                <div className="absolute -inset-10 bg-radial from-brand-teal/8 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl z-0" />
+                <motion.div 
+                  variants={{
+                    hover: {
+                      scale: 1.3,
+                      opacity: 1,
+                    }
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="absolute -inset-10 bg-radial from-brand-teal/15 via-transparent to-transparent opacity-0 pointer-events-none blur-xl z-0" 
+                />
 
                 {/* Background ambient accent swipe */}
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${v.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10`} />

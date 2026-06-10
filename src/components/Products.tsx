@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Smartphone, Watch, Circle, ShieldCheck, Heart, Radio } from "lucide-react";
+import Abstract3DSphere from "./Abstract3DSphere";
 
 interface ProductCardProps {
   title: string;
@@ -178,10 +179,24 @@ export default function Products() {
         }}
       />
 
+      {/* Premium Abstract 3D Spheres */}
+      <div className="absolute top-[18%] left-[4%] opacity-35 xl:opacity-50 hidden md:block pointer-events-none z-0">
+        <Abstract3DSphere className="w-56 h-56 xl:w-64 xl:h-64" speed={45} color1="#0F8B8D" color2="#D4A64A" />
+      </div>
+      <div className="absolute bottom-[12%] right-[2%] opacity-35 xl:opacity-50 hidden md:block pointer-events-none z-0">
+        <Abstract3DSphere className="w-60 h-60 xl:w-72 xl:h-72" speed={65} color1="#D4A64A" color2="#0F8B8D" />
+      </div>
+
       <div className="max-w-7xl mx-auto w-full relative z-10">
         
-        {/* Title Group */}
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+        {/* Title Group with Fade-In-Up content animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-2xl mx-auto mb-10 sm:mb-12"
+        >
           <span className="text-xs font-bold tracking-widest text-brand-gold uppercase block mb-2 sm:mb-3">
             Ecosystem Suite
           </span>
@@ -191,7 +206,7 @@ export default function Products() {
           <p className="mt-3 text-neutral-500 text-sm sm:text-base font-light">
             Modular personal protection: four beautiful products engineered with premium materials and integrated with responsive safety systems.
           </p>
-        </div>
+        </motion.div>
 
         {/* Bento Products Grid - Remodelled for generous space and readability */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 w-full">
