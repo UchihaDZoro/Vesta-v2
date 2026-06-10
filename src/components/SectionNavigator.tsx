@@ -48,6 +48,10 @@ export default function SectionNavigator() {
       
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
+        // If the user is on the final section or scrolled near the bottom, bypass to allow natural footer/contact scrolling
+        const isNearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 120);
+        if (activeId === "contact-footer" || isNearBottom) return;
+
         // If the user remains parked between section boundaries, gently align to the closest one
         const activeEl = document.getElementById(activeId);
         if (activeEl) {
