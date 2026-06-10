@@ -1,0 +1,6 @@
+{
+  "name": "Vesta — Intelligent Personal Safety",
+  "description": "Premium investor-grade landing page for Vesta safety technology solutions, combining wearables, mobile applications, and AI connected response.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
