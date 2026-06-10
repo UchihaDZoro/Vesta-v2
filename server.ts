@@ -13,6 +13,14 @@ async function startServer() {
   app.use(express.json());
 
   // API route for Contact Submission
+  app.get("/api/contact", (req, res) => {
+    res.json({ status: "active", message: "Vesta Contact API is up. Please use POST to submit messages." });
+  });
+
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+  });
+
   app.post("/api/contact", async (req, res) => {
     try {
       const { name, email, organization, message, category } = req.body;
